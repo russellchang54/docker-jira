@@ -25,9 +25,10 @@ RUN set -x \
     && mv                      /etc/apt/sources.list /etc/apt/sources.list.back \
     && cp                      "${TEMP_PATH}/sources.list.163" /etc/apt/sources.list \
     # && echo "deb http://mirrors.163.com/debian jessie-backports main" > /etc/apt/sources.list.d/jessie-backports.list \
+    && echo "deb http://ftp.debian.org/debian jessie-backports main" > /etc/apt/sources.list.d/jessie-backports.list \
     && apt-get update --quiet \
-    && apt-get install --quiet --yes --no-install-recommends xmlstarlet \
-    && apt-get install --quiet --yes --no-install-recommends -t jessie-backports libtcnative-1 \
+    && apt-get install --quiet --yes --allow-unauthenticated --no-install-recommends xmlstarlet \
+    && apt-get install --quiet --yes --allow-unauthenticated --no-install-recommends -t jessie-backports libtcnative-1 \
     && apt-get clean \
     && mkdir -p                "${JIRA_HOME}" \
     && mkdir -p                "${JIRA_HOME}/caches/indexes" \
