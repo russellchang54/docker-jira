@@ -5,6 +5,9 @@ ENV JIRA_HOME     /var/atlassian/jira
 ENV JIRA_INSTALL  /opt/atlassian/jira
 ENV JIRA_VERSION  7.3.8
 
+ENV TEMP_PATH     /temp/jira
+RUN mkdir -p  /temp/jira
+COPY atlassian-extras-3.2.jar                    /temp/jira/atlassian-extras-3.2.jar
 # Install Atlassian JIRA and helper tools and setup initial home
 # directory structure.
 RUN set -x \
@@ -19,7 +22,7 @@ RUN set -x \
     && chown -R daemon:daemon  "${JIRA_HOME}" \
     && mkdir -p                "${JIRA_INSTALL}/conf/Catalina" \
     && curl -Ls                "http://172.17.0.7:8080/download/atlassian-jira-software-${JIRA_VERSION}.tar.gz" | tar -xz --directory "${JIRA_INSTALL}" --strip-components=1 --no-same-owner \
-    && curl -Ls                "http://172.17.0.7:8080/download/mysql-connector-java-5.1.39.tar.gz" | tar -xz --directory "${JIRA_INSTALL}/lib" --strip-components=1 --no-same-owner "mysql-connector-java-5.1.38/mysql-connector-java-5.1.38-bin.jar" \
+    && curl -Ls                "http://172.17.0.7:8080/download/mysql-connector-java-5.1.39.tar.gz" | tar -xz --directory "${JIRA_INSTALL}/lib" --strip-components=1 --no-same-owner "mysql-connector-java-5.1.39/mysql-connector-java-5.1.39-bin.jar" \
     && rm -f                   "${JIRA_INSTALL}/lib/postgresql-9.1-903.jdbc4-atlassian-hosted.jar" \
     && curl -Ls                "http://172.17.0.7:8080/download/postgresql-9.4.1212.jar" -o "${JIRA_INSTALL}/lib/postgresql-9.4.1212.jar" \
     && chmod -R 700            "${JIRA_INSTALL}/conf" \
